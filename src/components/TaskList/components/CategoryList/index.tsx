@@ -1,6 +1,6 @@
-import { useEffect, useState } from "react";
-import { Task } from "../../../../@types/TaskType";
 import { useTask } from "../../../../hooks/useTask";
+import { Task } from "../../../../@types/TaskType";
+import { useEffect, useState } from "react";
 import { Item } from "../Item";
 
 import {
@@ -14,20 +14,12 @@ import {
 type CategoryListProps = {
   label: string;
   value: number;
+  tasks: Task[];
 };
 
-function CategoryList({ label, value }: CategoryListProps) {
-  const [isClosed, setIsClosed] = useState<boolean>(true);
-  const [filteredTasks, setFilteredTasks] = useState<Task[]>([]);
-  const { tasks } = useTask();
-
-  useEffect(() => {
-    if (tasks.length > 0) {
-      setFilteredTasks(
-        tasks.filter((task) => task.categoryIndex === value)
-      );
-    }
-  }, [tasks]);
+function CategoryList({ label, value, tasks }: CategoryListProps) {
+  const [isClosed, setIsClosed] = useState<boolean>(false);
+  const { filteredTasks } = useTask();
 
   return (
     <Container>
@@ -42,8 +34,8 @@ function CategoryList({ label, value }: CategoryListProps) {
       </Title>
       <List className={isClosed ? "closed" : ""}>
         <ListContainer>
-          {filteredTasks.length > 0 &&
-            filteredTasks.map((task) => {
+          {tasks.length > 0 &&
+            tasks.map((task) => {
               return (
                 <Item
                   task={task}

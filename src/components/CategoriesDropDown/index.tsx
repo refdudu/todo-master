@@ -74,17 +74,18 @@ function CategoriesDropDown({
         <CaretDownIcon />
       </Title>
       <List isOpened={isOpened}>
-        {categories.map(({ label, value }) => {
-          return (
-            <Item
-              key={value}
-              onClick={() => handleItemSelect({ label, value })}
-              value={value}
-            >
-              {label}
-            </Item>
-          );
-        })}
+        {categories.length > 0 &&
+          categories.map(({ label, value }) => {
+            return (
+              <Item
+                key={value}
+                onClick={() => handleItemSelect({ label, value })}
+                value={value}
+              >
+                {label}
+              </Item>
+            );
+          })}
         <NewCategory isShowed={isShowed}>
           <input
             ref={inputRef}

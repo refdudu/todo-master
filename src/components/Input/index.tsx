@@ -1,16 +1,19 @@
-import { useState } from "react";
-import { useCategory } from "../../hooks/useCategory";
-import { useTask } from "../../hooks/useTask";
-import { CategoriesDropDown } from "../CategoriesDropDown";
 import { Button, ButtonContainer, Container, Icon } from "./styles";
+import { CategoriesDropDown } from "../CategoriesDropDown";
+import { useCategory } from "../../hooks/useCategory";
+import toast, { Toaster } from "react-hot-toast";
+import { useTask } from "../../hooks/useTask";
+import { useState } from "react";
 
 function Input() {
-  const [value, setValue] = useState("");
   const [categoryValue, setCategoryValue] = useState<number>();
+  const [value, setValue] = useState("");
   const { categories } = useCategory();
   const { createTask } = useTask();
 
   function handleCreateTask() {
+    if (!categoryValue) return toast.error("Selecione uma categoria");
+
     if (categoryValue) {
       const data = { categoryIndex: categoryValue, value };
       const task = createTask(data);
@@ -25,6 +28,7 @@ function Input() {
 
   return (
     <Container onSubmit={() => console.log("value")}>
+      <Toaster />
       <input
         value={value}
         placeholder="Qual a sua tarefa?"

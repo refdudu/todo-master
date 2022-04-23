@@ -39,6 +39,7 @@ export function CategoryProvider({
       return parsedCategories;
     }
   }
+
   useEffect(() => {
     if (categories.length === 0) {
       const categories = getCategories();

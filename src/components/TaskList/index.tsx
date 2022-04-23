@@ -1,15 +1,19 @@
-import { useCategory } from "../../hooks/useCategory";
 import { useTask } from "../../hooks/useTask";
 import { CategoryList } from "./components/CategoryList";
 import { Container } from "./styles";
 
 function TaskList() {
-  const { categories } = useCategory();
+  const { filteredTasks } = useTask();
 
   return (
     <Container>
-      {categories.map(({ label, value }) => (
-        <CategoryList key={value} label={label} value={value} />
+      {filteredTasks.map(({ tasks, category }: any) => (
+        <CategoryList
+          key={category.value}
+          label={category.label}
+          value={category.value}
+          tasks={tasks}
+        />
       ))}
     </Container>
   );
