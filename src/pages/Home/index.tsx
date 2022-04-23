@@ -6,7 +6,7 @@ import { Container } from "./styles";
 function Home() {
   return (
     <Container>
-      <Header totalTasks={2} />
+      <Header />
       <Input />
       <TaskList />
     </Container>
