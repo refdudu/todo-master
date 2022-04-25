@@ -16,6 +16,9 @@ const iconCSS = css`
   height: 30px;
 
   fill: #118ab2;
+  &:hover {
+    filter: brightness(1.5);
+  }
 `;
 
 export const IconEmpty = styled(ProgressEmpty)`

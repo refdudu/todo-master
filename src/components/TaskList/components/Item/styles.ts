@@ -70,6 +70,9 @@ const iconCSS = css`
   &:hover {
     filter: brightness(1.5);
   }
+  &.in-content {
+    cursor: default;
+  }
 `;
 
 export const ThreeDotsVerticalIcon = styled(
@@ -95,4 +98,8 @@ export const EditIcon = styled(Pencil)`
 export const FinishedIcon = styled(CheckCircle)`
   ${iconCSS}
   fill:#06d6a0;
+  &.in-content {
+    width: 25px;
+    height: 25px;
+  }
 `;

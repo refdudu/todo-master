@@ -45,6 +45,7 @@ function Item({ children, task }: ItemProps) {
         {task.inProgress && (
           <InProgress isMouseHover={isMouseHover} />
         )}
+        {task.isCompleted && <FinishedIcon className="in-content" />}
 
         <span>{children}</span>
       </Content>
