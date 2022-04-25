@@ -14,6 +14,7 @@ type TaskContextProps = {
   createTask: ({ categoryIndex, value }: CreateTaskProps) => void;
   setInProgress: (task: Task) => void;
   setIsCompleted: (task: Task) => void;
+  deleteTask: (taskID: number) => void;
   text: string;
 };
 
@@ -124,9 +125,13 @@ export function TaskProvider({ children }: TaskProviderProps) {
     setTasks([...othersTasks, task]);
   }
 
+  function deleteTask(taskID: number) {
+    const othersTasks = tasks.filter(({ id }) => id !== taskID);
+    setTasks([...othersTasks]);
+  }
+
   function handleSetText() {
     if (tasks) {
-      
     }
   }
 
@@ -162,6 +167,7 @@ export function TaskProvider({ children }: TaskProviderProps) {
         filteredTasks,
         setInProgress,
         setIsCompleted,
+        deleteTask,
         text,
       }}
     >

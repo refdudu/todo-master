@@ -32,16 +32,21 @@ function CategoriesDropDown({
     setTitle(label);
   }
 
-  function handleMouseLeave() {
-    setIsOpened(false);
-    setIsShowed(false);
-    setCategory("");
+  function handleClose() {
+    if (isOpened) {
+      setIsOpened(false);
+      setIsShowed(false);
+      setCategory("");
+    } else {
+      setIsOpened(true);
+    }
   }
 
   return (
     <Container
-      onMouseLeave={handleMouseLeave}
+      onMouseLeave={handleClose}
       onMouseEnter={() => setIsOpened(true)}
+      onTouchEnd={handleClose}
     >
       <Title>
         <span>{title}</span>

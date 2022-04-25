@@ -6,4 +6,5 @@ export type Task = {
   inProgress: boolean;
   createdAt: Date;
   finishedAt?: Date | undefined;
+  startedAt?: Date | undefined;
 };

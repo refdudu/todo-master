@@ -39,7 +39,6 @@ function Input() {
   }
   return (
     <Container>
-      <Toaster />
       <InputContainer isFocus={isFocus}>
         <input
           value={value}

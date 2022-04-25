@@ -33,8 +33,8 @@ export const InputContainer = styled.div<InputContainerProps>`
   }
 `;
 export const ClearIcon = styled(Clear)`
-  width: 20px;
-  height: 20px;
+  width: 15px;
+  height: 15px;
   fill: #000;
   border-radius: 50%;
   cursor: pointer;

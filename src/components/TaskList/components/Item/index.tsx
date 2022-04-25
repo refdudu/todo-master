@@ -1,7 +1,8 @@
-import { ReactNode, useState } from "react";
-import { Task } from "../../../../@types/TaskType";
 import { useTask } from "../../../../hooks/useTask";
+import { Task } from "../../../../@types/TaskType";
 import { InProgress } from "./InProgressIcon";
+import { ReactNode, useState } from "react";
+import c from "classnames";
 import {
   Container,
   Content,
@@ -12,7 +13,7 @@ import {
   FinishedIcon,
   ThreeDotsVerticalIcon,
 } from "./styles";
-import c from "classnames";
+import { useModal } from "../../../../hooks/useModal";
 
 type ItemProps = {
   children: ReactNode;
@@ -23,6 +24,7 @@ function Item({ children, task }: ItemProps) {
   const [isShowed, setIsShowed] = useState(false);
   const [isMouseHover, setIsMouseHover] = useState(false);
   const { setInProgress, setIsCompleted } = useTask();
+  const { setIsOpened, setTaskID } = useModal();
 
   function handleShowOptions() {
     if (isShowed) {
@@ -30,6 +32,11 @@ function Item({ children, task }: ItemProps) {
     } else {
       setIsShowed(true);
     }
+  }
+
+  function handleDeleteTask() {
+    setIsOpened(true);
+    setTaskID(task.id);
   }
   return (
     <Container
@@ -53,7 +60,7 @@ function Item({ children, task }: ItemProps) {
       <div>
         <ThreeDotsVerticalIcon onClick={handleShowOptions} />
         <ActionsContainer className={isShowed ? "showed" : ""}>
-          <DeleteIcon />
+          <DeleteIcon onClick={handleDeleteTask} />
           <InProgressIcon onClick={() => setInProgress(task)} />
           <EditIcon />
           <FinishedIcon onClick={() => setIsCompleted(task)} />

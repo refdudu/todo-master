@@ -1,7 +1,7 @@
 import { useTask } from "../../hooks/useTask";
 import { CategoryList } from "./components/CategoryList";
 import { Container } from "./styles";
-
+import { DeleteModal } from "./components/DeleteModal";
 function TaskList() {
   const { filteredTasks } = useTask();
 
@@ -15,6 +15,7 @@ function TaskList() {
           tasks={tasks}
         />
       ))}
+      <DeleteModal />
     </Container>
   );
 }
