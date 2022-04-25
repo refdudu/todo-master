@@ -37,8 +37,6 @@ function CategoriesDropDown({
       setIsOpened(false);
       setIsShowed(false);
       setCategory("");
-    } else {
-      setIsOpened(true);
     }
   }
 
