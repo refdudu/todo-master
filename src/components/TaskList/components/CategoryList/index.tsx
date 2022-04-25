@@ -1,6 +1,6 @@
 import { useTask } from "../../../../hooks/useTask";
 import { Task } from "../../../../@types/TaskType";
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { Item } from "../Item";
 
 import {
@@ -17,9 +17,31 @@ type CategoryListProps = {
   tasks: Task[];
 };
 
-function CategoryList({ label, value, tasks }: CategoryListProps) {
+function CategoryList({ label, tasks }: CategoryListProps) {
   const [isClosed, setIsClosed] = useState<boolean>(false);
-  const { filteredTasks } = useTask();
+  const [height, setHeight] = useState<number>(0);
+
+  const orderTasks = useMemo(() => {
+    const orderByID = tasks.sort((a, b) => a.id - b.id);
+
+    const arInProgress = orderByID.filter((task) => task.inProgress);
+    const arIsCompleted = orderByID.filter(
+      (task) => task.isCompleted
+    );
+    const arOthers = orderByID.filter(
+      (task) => !task.isCompleted && !task.inProgress
+    );
+
+    const ar = [...arInProgress, ...arOthers, ...arIsCompleted];
+
+    return ar;
+  }, [tasks]);
+  //height 61px
+
+  useEffect(() => {
+    const height = tasks.length * 61;
+    setHeight(height);
+  }, [tasks]);
 
   return (
     <Container>
@@ -32,18 +54,13 @@ function CategoryList({ label, value, tasks }: CategoryListProps) {
         <span>{label}</span>
         <Line />
       </Title>
-      <List className={isClosed ? "closed" : ""}>
+      <List height={height} className={isClosed ? "closed" : ""}>
         <ListContainer>
-          {tasks.length > 0 &&
-            tasks.map((task) => {
-              return (
-                <Item
-                  task={task}
-                  children={task.value}
-                  key={task.id}
-                />
-              );
-            })}
+          {orderTasks.map((task) => {
+            return (
+              <Item task={task} children={task.value} key={task.id} />
+            );
+          })}
         </ListContainer>
       </List>
     </Container>

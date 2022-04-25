@@ -1,49 +1,63 @@
-import { Button, ButtonContainer, Container, Icon } from "./styles";
+import { Container, InputContainer, ClearIcon } from "./styles";
 import { CategoriesDropDown } from "../CategoriesDropDown";
 import { useCategory } from "../../hooks/useCategory";
 import toast, { Toaster } from "react-hot-toast";
 import { useTask } from "../../hooks/useTask";
+import { Button } from "./components/Button";
 import { useState } from "react";
 
 function Input() {
-  const [categoryValue, setCategoryValue] = useState<number>();
-  const [value, setValue] = useState("");
+  const [categoryIndex, setCategoryIndex] = useState<number>();
+  const [isFocus, setIsFocus] = useState(false);
+  const [value, setValue] = useState<string>("");
+
   const { categories } = useCategory();
   const { createTask } = useTask();
 
   function handleCreateTask() {
-    if (!categoryValue) return toast.error("Selecione uma categoria");
-
-    if (categoryValue) {
-      const data = { categoryIndex: categoryValue, value };
-      const task = createTask(data);
-      setValue("");
+    if (categoryIndex) {
+      if (value.trim() === "") {
+        toast.error("Digite uma tarefa!");
+      } else {
+        createTask({ categoryIndex, value });
+        setValue("");
+      }
+    } else {
+      toast.error("Selecione uma categoria!");
     }
   }
-  function handleSubmit(key: string) {
-    if (key == "Enter") {
+
+  function handleSubmit(
+    event: React.KeyboardEvent<HTMLInputElement>
+  ) {
+    event.preventDefault();
+
+    const key = event.key.toLowerCase();
+    if (key === "enter") {
       handleCreateTask();
     }
   }
-
   return (
-    <Container onSubmit={() => console.log("value")}>
+    <Container>
       <Toaster />
-      <input
-        value={value}
-        placeholder="Qual a sua tarefa?"
-        onChange={(e) => setValue(e.currentTarget.value)}
-        onKeyDown={(e) => handleSubmit(e.key)}
-      />
+      <InputContainer isFocus={isFocus}>
+        <input
+          value={value}
+          placeholder="Qual a sua tarefa?"
+          onChange={(event) => setValue(event.currentTarget.value)}
+          onKeyUp={(event) => handleSubmit(event)}
+          onFocus={() => setIsFocus(true)}
+          onBlur={() => setIsFocus(false)}
+        />
+        <ClearIcon onClick={() => setValue("")} />
+      </InputContainer>
+
       <CategoriesDropDown
-        setCategoryValue={setCategoryValue}
+        setCategoryIndex={setCategoryIndex}
         categories={categories}
       />
-      <ButtonContainer onClick={handleCreateTask}>
-        <Button>
-          <Icon />
-        </Button>
-      </ButtonContainer>
+
+      <Button handleCreateTask={handleCreateTask} />
     </Container>
   );
 }

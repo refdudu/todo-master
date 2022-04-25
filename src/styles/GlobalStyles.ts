@@ -22,11 +22,15 @@ textarea {
   outline: none;
   
   font-size: 1rem;
+  
   font-weight: 500;
   /* font-family: "Archivo", sans-serif;
   font-family: "Darker Grotesque", sans-serif; */
   font-family: "Poppins", sans-serif;
+  
 }
+
+
 ul {
   list-style: none;
 }

@@ -1,6 +1,6 @@
-import styled from "styled-components";
-import { Plus } from "styled-icons/bootstrap";
 import { colors } from "../../styles/colors";
+import styled from "styled-components";
+import { Clear } from "styled-icons/material";
 
 export const Container = styled.div`
   background-color: #fff;
@@ -10,31 +10,38 @@ export const Container = styled.div`
   display: flex;
   justify-content: space-between;
 
-  > input {
-    padding: 0.7rem;
-    flex: 1;
-    font-size: 1.2rem;
-
-    border: 2px solid transparent;
-    border-right: none;
-    &:focus {
-      border-color: ${colors.border};
-    }
+  @media (max-width: 850px) {
+    flex-direction: column;
   }
 `;
-export const ButtonContainer = styled.button`
+
+type InputContainerProps = {
+  isFocus?: boolean;
+};
+
+export const InputContainer = styled.div<InputContainerProps>`
+  flex: 1;
   display: flex;
   align-items: center;
-  justify-content: center;
-`;
-export const Button = styled.div`
-  height: 100%;
-  cursor: pointer;
+  border: 2px solid
+    ${(props) => (props.isFocus ? colors.border : "transparent")};
+  border-right: none;
   padding: 0.7rem;
-
-  border: 2px solid ${colors.border};
+  > input {
+    flex: 1;
+    font-size: 1.2rem;
+  }
 `;
-export const Icon = styled(Plus)`
-  width: 30px;
-  height: 30px;
+export const ClearIcon = styled(Clear)`
+  width: 20px;
+  height: 20px;
+  fill: #000;
+  border-radius: 50%;
+  cursor: pointer;
+  margin-right: 5px;
+  border: 1px solid #000;
+  transition: background-color 0.2s ease;
+  &:hover {
+    background-color: #eaeaea;
+  }
 `;

@@ -1,6 +1,6 @@
 import React, { FormEvent, useRef, useState } from "react";
 import { Category } from "../../@types/CategoryType";
-import { useCategory } from "../../hooks/useCategory";
+import { NewCategory } from "./NewCategory";
 import {
   Container,
   Title,
@@ -8,65 +8,39 @@ import {
   Item,
   CreateNewCategory,
   CaretDownIcon,
-  NewCategory,
   PlusIcon,
 } from "./styles";
 
 type CategoriesDropDownProps = {
   categories: Category[];
-  setCategoryValue: React.Dispatch<
+  setCategoryIndex: React.Dispatch<
     React.SetStateAction<number | undefined>
   >;
 };
 
 function CategoriesDropDown({
   categories,
-  setCategoryValue,
+  setCategoryIndex,
 }: CategoriesDropDownProps) {
-  const inputRef = useRef(null);
-  const [isOpened, setIsOpened] = useState(false);
-  const [isShowed, setIsShowed] = useState(false);
-  const [category, setCategory] = useState("");
+  const [isOpened, setIsOpened] = useState<boolean>(false);
+  const [isShowed, setIsShowed] = useState<boolean>(false);
+  const [category, setCategory] = useState<string>("");
   const [title, setTitle] = useState("Categorias");
-  const { createCategory } = useCategory();
 
-  function handleShowCreateNewCategory() {
-    setIsShowed(true);
-    setTimeout(() => {
-      const input = inputRef.current as HTMLInputElement | null;
-      if (input) {
-        input.focus();
-      }
-    }, 100);
-  }
-  function handleCreateNewCategory() {
-    if (category.trim() != "") {
-      setCategory("");
-      setIsShowed(false);
-      const res = createCategory(category);
-      if (res != undefined) {
-        handleItemSelect({
-          label: res.label,
-          value: res.value,
-        });
-      }
-    }
-  }
-
-  function handleSubmit(key: string) {
-    if (key == "Enter") {
-      handleCreateNewCategory();
-    }
-  }
   function handleItemSelect({ label, value }: Category) {
-    setCategoryValue(value);
+    setCategoryIndex(value);
     setTitle(label);
+  }
+
+  function handleMouseLeave() {
     setIsOpened(false);
+    setIsShowed(false);
+    setCategory("");
   }
 
   return (
     <Container
-      onMouseLeave={() => setIsOpened(false)}
+      onMouseLeave={handleMouseLeave}
       onMouseEnter={() => setIsOpened(true)}
     >
       <Title>
@@ -74,33 +48,24 @@ function CategoriesDropDown({
         <CaretDownIcon />
       </Title>
       <List isOpened={isOpened}>
-        {categories.length > 0 &&
-          categories.map(({ label, value }) => {
-            return (
-              <Item
-                key={value}
-                onClick={() => handleItemSelect({ label, value })}
-                value={value}
-              >
-                {label}
-              </Item>
-            );
-          })}
-        <NewCategory isShowed={isShowed}>
-          <input
-            ref={inputRef}
-            value={category}
-            onChange={(e) => {
-              setCategory(e.currentTarget.value);
-            }}
-            onKeyDown={(e) => handleSubmit(e.key)}
-            type="text"
-          />
-          <button onClick={handleCreateNewCategory}>
-            <PlusIcon className="create-category" />
-          </button>
-        </NewCategory>
-        <CreateNewCategory onClick={handleShowCreateNewCategory}>
+        {categories.map(({ label, value }) => {
+          return (
+            <Item
+              key={value}
+              onClick={() => handleItemSelect({ label, value })}
+              value={value}
+            >
+              {label}
+            </Item>
+          );
+        })}
+        <NewCategory
+          category={category}
+          setCategory={setCategory}
+          isShowed={isShowed}
+          setIsShowed={setIsShowed}
+        />
+        <CreateNewCategory onClick={() => setIsShowed(true)}>
           <PlusIcon className="new-category" />
           <span>Nova categoria</span>
         </CreateNewCategory>

@@ -3,7 +3,17 @@ import { useTask } from "../../hooks/useTask";
 import { Container, Text } from "./styles";
 
 function Header() {
-  const { text } = useTask();
+  const [text, setText] = useState("você não tem tarefas");
+  const { tasks } = useTask();
+
+  useEffect(() => {
+    if (tasks.length == 1) {
+      setText("você tem uma tarefa");
+    }
+    if (tasks.length > 1) {
+      setText(`você tem ${tasks.length} tarefas`);
+    }
+  }, [tasks]);
 
   return (
     <Container>

@@ -28,6 +28,16 @@ export const Container = styled.li`
   &:last-child {
     border: none;
   }
+  &.in-progress {
+    /* border: 1px solid #7f93a3; */
+  }
+`;
+
+export const Content = styled.div`
+  padding: 0 1rem;
+  display: flex;
+  gap: 10px;
+  align-items: center;
 `;
 type EditProps = {
   isShowed?: boolean;

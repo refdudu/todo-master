@@ -1,8 +1,10 @@
 import { ReactNode, useState } from "react";
 import { Task } from "../../../../@types/TaskType";
 import { useTask } from "../../../../hooks/useTask";
+import { InProgress } from "./InProgressIcon";
 import {
   Container,
+  Content,
   ActionsContainer,
   DeleteIcon,
   InProgressIcon,
@@ -10,6 +12,7 @@ import {
   FinishedIcon,
   ThreeDotsVerticalIcon,
 } from "./styles";
+import c from "classnames";
 
 type ItemProps = {
   children: ReactNode;
@@ -18,7 +21,8 @@ type ItemProps = {
 
 function Item({ children, task }: ItemProps) {
   const [isShowed, setIsShowed] = useState(false);
-  const { setInProgressTask } = useTask();
+  const [isMouseHover, setIsMouseHover] = useState(false);
+  const { setInProgress, setIsCompleted } = useTask();
 
   function handleShowOptions() {
     if (isShowed) {
@@ -28,19 +32,37 @@ function Item({ children, task }: ItemProps) {
     }
   }
   return (
-    <Container>
-      <span>{children}</span>
+    <Container
+      onMouseLeave={() => setIsMouseHover(false)}
+      onMouseEnter={() => setIsMouseHover(true)}
+      className={c({
+        "in-progress": task.inProgress,
+        "is-completed": task.isCompleted,
+        "is-finished": task.finishedAt !== undefined,
+      })}
+    >
+      <Content>
+        {task.inProgress && (
+          <InProgress isMouseHover={isMouseHover} />
+        )}
+
+        <span>{children}</span>
+      </Content>
 
       <div>
         <ThreeDotsVerticalIcon onClick={handleShowOptions} />
         <ActionsContainer className={isShowed ? "showed" : ""}>
           <DeleteIcon />
-          <InProgressIcon onClick={() => setInProgressTask(task)} />
+          <InProgressIcon onClick={() => setInProgress(task)} />
           <EditIcon />
-          <FinishedIcon />
+          <FinishedIcon onClick={() => setIsCompleted(task)} />
         </ActionsContainer>
       </div>
     </Container>
   );
 }
 export { Item };
+
+// {task.isCompleted && (
+//   <InProgress isMouseHover={isMouseHover} />
+// )}

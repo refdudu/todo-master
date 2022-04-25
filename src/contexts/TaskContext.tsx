@@ -12,7 +12,8 @@ type TaskContextProps = {
   tasks: Task[];
   filteredTasks: CategoriesTasks[];
   createTask: ({ categoryIndex, value }: CreateTaskProps) => void;
-  setInProgressTask: (task: Task) => void;
+  setInProgress: (task: Task) => void;
+  setIsCompleted: (task: Task) => void;
   text: string;
 };
 
@@ -85,32 +86,47 @@ export function TaskProvider({ children }: TaskProviderProps) {
       }
     }
 
-    const orderByTasksInProgress = toArrayCategoriesTasks.sort(
-      (a, b) => {
-        return (
+    const orderCategoriesByTasksInProgress =
+      toArrayCategoriesTasks.sort(
+        (a, b) =>
           b.tasks.filter((task) => task.inProgress).length -
           a.tasks.filter((task) => task.inProgress).length
-        );
-      }
-    );
+      );
 
-    return orderByTasksInProgress;
+    return orderCategoriesByTasksInProgress;
   }
 
-  function setInProgressTask(task: Task) {
+  function setInProgress(task: Task) {
     const othersTasks = tasks.filter((_task) => _task.id != task.id);
-    task.inProgress = true;
+    if (task.inProgress) {
+      task.inProgress = false;
+    } else {
+      task.inProgress = true;
+    }
+
+    task.isCompleted = false;
+    task.finishedAt = undefined;
+
+    setTasks([...othersTasks, task]);
+  }
+  function setIsCompleted(task: Task) {
+    const othersTasks = tasks.filter((_task) => _task.id != task.id);
+
+    if (task.isCompleted) {
+      task.isCompleted = false;
+      task.finishedAt = undefined;
+    } else {
+      task.isCompleted = true;
+      task.finishedAt = new Date();
+    }
+    task.inProgress = false;
+
     setTasks([...othersTasks, task]);
   }
 
   function handleSetText() {
     if (tasks) {
-      if (tasks.length == 1) {
-        setText("você tem uma tarefa");
-      }
-      if (tasks.length > 1) {
-        setText(`você tem ${tasks.length} tarefas`);
-      }
+      
     }
   }
 
@@ -144,7 +160,8 @@ export function TaskProvider({ children }: TaskProviderProps) {
         createTask,
         tasks,
         filteredTasks,
-        setInProgressTask,
+        setInProgress,
+        setIsCompleted,
         text,
       }}
     >

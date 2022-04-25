@@ -23,8 +23,16 @@ export const Line = styled.div`
     margin-left: 1.5rem;
   }
 `;
-export const List = styled.div`
+
+type ListProps = {
+  height: number;
+};
+
+export const List = styled.div<ListProps>`
   overflow: hidden;
+  max-height: ${({ height }) =>
+    height !== undefined ? height : 0}px;
+  transition: max-height 0.5s ease;
   &.closed {
     max-height: 0;
   }

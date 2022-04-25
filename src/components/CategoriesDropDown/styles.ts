@@ -43,6 +43,9 @@ export const List = styled.ul<ListProps>`
 
   border: 2px solid ${colors.border};
   /* border-top: none; */
+  @media (max-width: 850px) {
+    top: 48px;
+  }
 `;
 export const Item = styled.li`
   padding: 0.3rem 1.5rem;
@@ -55,34 +58,6 @@ export const Item = styled.li`
     cubic-bezier(0.075, 0.82, 0.165, 1);
   &:hover {
     background-color: ${colors.border};
-  }
-`;
-
-type NewCategoryProps = {
-  isShowed?: boolean;
-};
-
-export const NewCategory = styled.div<NewCategoryProps>`
-  padding: 0.5rem 1rem;
-  display: ${(props) => (props.isShowed ? "flex" : "none")};
-
-  form {
-    display: flex;
-  }
-
-  input {
-    padding: 0.2rem;
-    width: 100%;
-    border-bottom: 1px solid ${colors.border};
-  }
-  button {
-    padding: 0.1rem;
-    background-color: ${colors.border};
-    margin-left: 5px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    cursor: pointer;
   }
 `;
 
