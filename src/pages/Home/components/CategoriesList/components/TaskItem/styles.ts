@@ -1,17 +1,11 @@
-import {
-  CheckCircle,
-  Pencil,
-  ThreeDotsVertical,
-  Trash,
-} from "styled-icons/bootstrap";
+import { CheckCircle, Pencil, ThreeDotsVertical, Trash } from "styled-icons/bootstrap";
 import { ProgressTwo } from "styled-icons/entypo";
 import styled, { css, keyframes } from "styled-components";
-import { colors } from "../../../../styles/colors";
 
 export const Container = styled.li`
   font-size: 1.2rem;
   padding: 1rem 0;
-  border-bottom: 1px solid ${colors.border};
+  border-bottom: 1px solid var(--border);
 
   display: flex;
   align-items: center;
@@ -28,20 +22,19 @@ export const Container = styled.li`
   &:last-child {
     border: none;
   }
-  &.in-progress {
-    /* border: 1px solid #7f93a3; */
-  }
 `;
 
 export const Content = styled.div`
-  padding: 0 1rem;
   display: flex;
-  gap: 10px;
   align-items: center;
+  gap: 10px;
+
+  max-width: 80%;
+  word-break: break-all;
 `;
-type EditProps = {
+interface EditProps {
   isShowed?: boolean;
-};
+}
 
 export const ActionsContainer = styled.div<EditProps>`
   gap: 15px;
@@ -75,11 +68,8 @@ const iconCSS = css`
   }
 `;
 
-export const ThreeDotsVerticalIcon = styled(
-  ThreeDotsVertical
-)<EditProps>`
+export const ThreeDotsVerticalIcon = styled(ThreeDotsVertical)<EditProps>`
   ${iconCSS};
-  display: ${({ isShowed }) => (isShowed ? "none" : "block")};
   fill: #000;
 `;
 
@@ -103,3 +93,30 @@ export const FinishedIcon = styled(CheckCircle)`
     height: 25px;
   }
 `;
+
+export const TimerContainer = styled.div`
+  display: flex;
+  position: absolute;
+  right: 20px;
+  transition: right 0.6s ease;
+  &.showed {
+    right: 170px;
+  }
+
+  background-color: #118ab2;
+  padding: 0.1rem 0.5rem;
+  border-radius: 5px;
+`;
+
+const C = styled.div`
+  span {
+    margin-left: 2px;
+  }
+`;
+
+export const HourContainer = styled.div`
+  span {
+  }
+`;
+export const Colon = styled.div``;
+export const MinutesContainer = styled.div``;

@@ -1,6 +1,6 @@
 import toast, { Toaster } from "react-hot-toast";
-import { useModal } from "../../../../hooks/useModal";
-import { useTask } from "../../../../hooks/useTask";
+import { useModal } from "../../../../../../hooks/useModal";
+import { useTask } from "../../../../../../hooks/useTask";
 import {
   Wrapper,
   Container,

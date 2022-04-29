@@ -9,17 +9,20 @@ type WrapperProps = {
 
 export const Wrapper = styled.div<WrapperProps>`
   position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  background: #fff;
+  top: 0;
+  left: 0;
+  background: rgba(0, 0, 0, 0.4);
   z-index: 999999999999;
-  padding: 2.5rem;
-
-  display: ${({ isOpened }) => (isOpened ? "block" : "none")};
+  height: 100vh;
+  width: 100vw;
+  display: ${({ isOpened }) => (isOpened ? "flex" : "none")};
+  justify-content: center;
+  align-items: center;
 `;
 
 export const Container = styled.div`
+  background-color: #fff;
+  padding: 2.5rem;
   display: flex;
   flex-direction: column;
   align-items: center;

@@ -1,4 +1,4 @@
-import { useCategory } from "../../../hooks/useCategory";
+import { useCategory } from "../../../../../../../hooks/useCategory";
 import { Container, Icon } from "./styles";
 import React, { useEffect, useRef, useState } from "react";
 
@@ -9,12 +9,7 @@ type NewCategoryProps = {
   setCategory: React.Dispatch<React.SetStateAction<string>>;
 };
 
-function NewCategory({
-  isShowed,
-  setIsShowed,
-  category,
-  setCategory,
-}: NewCategoryProps) {
+function NewCategory({ isShowed, setIsShowed, category, setCategory }: NewCategoryProps) {
   const { createCategory } = useCategory();
   const inputRef = useRef(null);
 
@@ -23,17 +18,6 @@ function NewCategory({
       setCategory("");
       setIsShowed(false);
       createCategory(category);
-    }
-  }
-
-  function handleSubmit(
-    event: React.KeyboardEvent<HTMLInputElement>
-  ) {
-    event.preventDefault();
-
-    const key = event.key.toLowerCase();
-    if (key === "enter") {
-      handleCreateCategory();
     }
   }
 
@@ -52,7 +36,7 @@ function NewCategory({
         onChange={(event) => {
           setCategory(event.currentTarget.value);
         }}
-        onKeyUp={(event) => handleSubmit(event)}
+        onKeyUp={({ key }) => key === "Enter" && handleCreateCategory}
         type="text"
       />
       <button onClick={handleCreateCategory}>

@@ -1,8 +1,14 @@
-import { useTask } from "../../../../hooks/useTask";
-import { Task } from "../../../../@types/TaskType";
+import {  useState } from "react";
+
+import { useModal } from "../../../../../../hooks/useModal";
+import { useTask } from "../../../../../../hooks/useTask";
+
+import { Task } from "../../../../../../@types/TaskType";
+
 import { InProgress } from "./InProgressIcon";
-import { ReactNode, useState } from "react";
+
 import c from "classnames";
+
 import {
   Container,
   Content,
@@ -13,14 +19,19 @@ import {
   FinishedIcon,
   ThreeDotsVerticalIcon,
 } from "./styles";
-import { useModal } from "../../../../hooks/useModal";
+
+import {
+  TimerContainer,
+  Colon,
+  HourContainer,
+  MinutesContainer,
+} from "./styles";
 
 type ItemProps = {
-  children: ReactNode;
   task: Task;
 };
 
-function Item({ children, task }: ItemProps) {
+function TaskItem({ task }: ItemProps) {
   const [isShowed, setIsShowed] = useState(false);
   const [isMouseHover, setIsMouseHover] = useState(false);
   const { setInProgress, setIsCompleted } = useTask();
@@ -45,7 +56,7 @@ function Item({ children, task }: ItemProps) {
       className={c({
         "in-progress": task.inProgress,
         "is-completed": task.isCompleted,
-        "is-finished": task.finishedAt !== undefined,
+        "is-finished": !!task.finishedAt,
       })}
     >
       <Content>
@@ -54,23 +65,36 @@ function Item({ children, task }: ItemProps) {
         )}
         {task.isCompleted && <FinishedIcon className="in-content" />}
 
-        <span>{children}</span>
+        <span>{task.value}</span>
       </Content>
 
       <div>
-        <ThreeDotsVerticalIcon onClick={handleShowOptions} />
         <ActionsContainer className={isShowed ? "showed" : ""}>
           <DeleteIcon onClick={handleDeleteTask} />
-          <InProgressIcon onClick={() => setInProgress(task)} />
+          {!task.isCompleted && (
+            <InProgressIcon onClick={() => setInProgress(task)} />
+          )}
           <EditIcon />
-          <FinishedIcon onClick={() => setIsCompleted(task)} />
+          {task.inProgress && (
+            <FinishedIcon onClick={() => setIsCompleted(task)} />
+          )}
         </ActionsContainer>
+        {task.inProgress && (
+          <TimerContainer className={isShowed ? "showed" : ""}>
+            <HourContainer>
+              <span>0</span>
+              <span>3</span>
+            </HourContainer>
+            <Colon>:</Colon>
+            <MinutesContainer>
+              <span>2</span>
+              <span>0</span>
+            </MinutesContainer>
+          </TimerContainer>
+        )}
+        <ThreeDotsVerticalIcon onClick={handleShowOptions} />
       </div>
     </Container>
   );
 }
-export { Item };
-
-// {task.isCompleted && (
-//   <InProgress isMouseHover={isMouseHover} />
-// )}
+export { TaskItem };

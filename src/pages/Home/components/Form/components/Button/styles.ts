@@ -1,4 +1,3 @@
-import { colors } from "../../../../styles/colors";
 import { Plus } from "styled-icons/bootstrap";
 import styled from "styled-components";
 
@@ -12,7 +11,7 @@ export const Content = styled.div`
   cursor: pointer;
   padding: 0.7rem;
 
-  border: 2px solid ${colors.border};
+  border: 2px solid var(--border);
   @media (max-width: 850px) {
     width: 100%;
     border: none;

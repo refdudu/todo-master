@@ -1,5 +1,5 @@
 import { createContext, ReactNode, useEffect, useState } from "react";
-import { Category } from "../@types/CategoryType";
+import { Category, CategoryTasks } from "../@types/CategoryType";
 import { Task } from "../@types/TaskType";
 import { useCategory } from "../hooks/useCategory";
 
@@ -10,7 +10,7 @@ type CreateTaskProps = {
 
 type TaskContextProps = {
   tasks: Task[];
-  filteredTasks: CategoriesTasks[];
+  filteredTasks: CategoryTasks[];
   createTask: ({ categoryIndex, value }: CreateTaskProps) => void;
   setInProgress: (task: Task) => void;
   setIsCompleted: (task: Task) => void;
@@ -21,19 +21,16 @@ type TaskContextProps = {
 type TaskProviderProps = {
   children: ReactNode;
 };
-type CategoriesTasks = {
-  tasks: Task[];
-  category: Category;
-};
 
 export const TaskContext = createContext({} as TaskContextProps);
 
 export function TaskProvider({ children }: TaskProviderProps) {
+  const [firstTime, setFirstTime] = useState(true);
   const { categories } = useCategory();
   const [tasks, setTasks] = useState<Task[]>([]);
-  const [filteredTasks, setFilteredTasks] = useState<
-    CategoriesTasks[]
-  >([]);
+  const [filteredTasks, setFilteredTasks] = useState<CategoryTasks[]>(
+    []
+  );
   const [text, setText] = useState("você não tem tarefas");
 
   function createTask({ value, categoryIndex }: CreateTaskProps) {
@@ -67,18 +64,21 @@ export function TaskProvider({ children }: TaskProviderProps) {
       categoriesTasks[task.categoryIndex].push(task);
     }
 
-    const toArrayCategoriesTasks = [] as CategoriesTasks[];
+    const toArrayCategoriesTasks = [] as CategoryTasks[];
 
     for (const taskIndex in categoriesTasks) {
-      if (categoriesTasks[taskIndex].length === 0)
+      if (categoriesTasks[taskIndex].length === 0) {
         return categoriesTasks[taskIndex].splice(
           parseInt(taskIndex),
           1
         );
+      }
+
       const category = categories.find(
         (obj) =>
           obj.value === categoriesTasks[taskIndex]?.[0].categoryIndex
       );
+
       if (category !== undefined) {
         toArrayCategoriesTasks.push({
           tasks: categoriesTasks[taskIndex],
@@ -127,17 +127,14 @@ export function TaskProvider({ children }: TaskProviderProps) {
 
   function deleteTask(taskID: number) {
     const othersTasks = tasks.filter(({ id }) => id !== taskID);
-    setTasks([...othersTasks]);
-  }
 
-  function handleSetText() {
-    if (tasks) {
-    }
+    setTasks(othersTasks);
   }
 
   // only first call
   useEffect(() => {
     const value = localStorage.getItem("task_index");
+    setFirstTime(false);
     if (!value) {
       localStorage.setItem("task_index", "0");
     }
@@ -151,8 +148,7 @@ export function TaskProvider({ children }: TaskProviderProps) {
   }, []);
 
   useEffect(() => {
-    if (tasks.length != 0) {
-      handleSetText();
+    if (!firstTime) {
       const orderTasks = divideByCategory();
       setFilteredTasks(orderTasks);
       localStorage.setItem("tasks", JSON.stringify(tasks));

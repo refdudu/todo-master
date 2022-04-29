@@ -1,7 +1,5 @@
-import { useTask } from "../../../../hooks/useTask";
-import { Task } from "../../../../@types/TaskType";
 import { useEffect, useMemo, useState } from "react";
-import { Item } from "../Item";
+import { TaskItem } from "../TaskItem";
 
 import {
   Container,
@@ -10,14 +8,9 @@ import {
   ListContainer,
   Title,
 } from "./styles";
+import { CategoryTasks } from "../../../../../../@types/CategoryType";
 
-type CategoryListProps = {
-  label: string;
-  value: number;
-  tasks: Task[];
-};
-
-function CategoryList({ label, tasks }: CategoryListProps) {
+function CategoryItem({ category: { label }, tasks }: CategoryTasks) {
   const [isClosed, setIsClosed] = useState<boolean>(false);
   const [height, setHeight] = useState<number>(0);
 
@@ -56,14 +49,12 @@ function CategoryList({ label, tasks }: CategoryListProps) {
       </Title>
       <List height={height} className={isClosed ? "closed" : ""}>
         <ListContainer>
-          {orderTasks.map((task) => {
-            return (
-              <Item task={task} children={task.value} key={task.id} />
-            );
-          })}
+          {orderTasks.map((task) => (
+            <TaskItem task={task} key={task.id} />
+          ))}
         </ListContainer>
       </List>
     </Container>
   );
 }
-export { CategoryList };
+export { CategoryItem };

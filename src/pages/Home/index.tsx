@@ -1,7 +1,7 @@
 import { Toaster } from "react-hot-toast";
-import { Header } from "../../components/Header";
-import { Input } from "../../components/Input";
-import { TaskList } from "../../components/TaskList";
+import { Header } from "./components/Header";
+import { Form } from "./components/Form";
+import { CategoriesList } from "./components/CategoriesList";
 import { Container } from "./styles";
 
 function Home() {
@@ -9,8 +9,8 @@ function Home() {
     <Container>
       <Toaster />
       <Header />
-      <Input />
-      <TaskList />
+      <Form />
+      <CategoriesList />
     </Container>
   );
 }

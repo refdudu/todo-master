@@ -1,4 +1,3 @@
-import { colors } from "../../../styles/colors";
 import styled from "styled-components";
 import { Plus } from "styled-icons/bootstrap";
 
@@ -13,11 +12,11 @@ export const Container = styled.div<NewCategoryProps>`
   input {
     padding: 0.2rem;
     width: 100%;
-    border-bottom: 1px solid ${colors.border};
+    border-bottom: 1px solid var(--border);
   }
   button {
     padding: 0.1rem;
-    background-color: ${colors.border};
+    background-color: var(--border);
     margin-left: 5px;
     display: flex;
     align-items: center;
