@@ -31,7 +31,7 @@ type ListProps = {
 };
 
 export const List = styled.ul<ListProps>`
-  /* display: ${(props) => (props.isOpened ? "block" : "none")}; */
+  display: ${(props) => (props.isOpened ? "block" : "none")};
   z-index: 9999;
   position: absolute;
   background: #fff;

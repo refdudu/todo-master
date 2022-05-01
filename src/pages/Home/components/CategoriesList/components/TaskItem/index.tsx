@@ -1,7 +1,4 @@
-import {  useState } from "react";
-
-import { useModal } from "../../../../../../hooks/useModal";
-import { useTask } from "../../../../../../hooks/useTask";
+import { useState } from "react";
 
 import { Task } from "../../../../../../@types/TaskType";
 
@@ -9,23 +6,9 @@ import { InProgress } from "./InProgressIcon";
 
 import c from "classnames";
 
-import {
-  Container,
-  Content,
-  ActionsContainer,
-  DeleteIcon,
-  InProgressIcon,
-  EditIcon,
-  FinishedIcon,
-  ThreeDotsVerticalIcon,
-} from "./styles";
-
-import {
-  TimerContainer,
-  Colon,
-  HourContainer,
-  MinutesContainer,
-} from "./styles";
+import { Container, Content } from "./styles";
+import { FinishedIcon, ThreeDotsVerticalIcon } from "./icons";
+import { TaskActions } from "./TaskActions";
 
 type ItemProps = {
   task: Task;
@@ -34,8 +17,6 @@ type ItemProps = {
 function TaskItem({ task }: ItemProps) {
   const [isShowed, setIsShowed] = useState(false);
   const [isMouseHover, setIsMouseHover] = useState(false);
-  const { setInProgress, setIsCompleted } = useTask();
-  const { setIsOpened, setTaskID } = useModal();
 
   function handleShowOptions() {
     if (isShowed) {
@@ -45,10 +26,6 @@ function TaskItem({ task }: ItemProps) {
     }
   }
 
-  function handleDeleteTask() {
-    setIsOpened(true);
-    setTaskID(task.id);
-  }
   return (
     <Container
       onMouseLeave={() => setIsMouseHover(false)}
@@ -69,30 +46,8 @@ function TaskItem({ task }: ItemProps) {
       </Content>
 
       <div>
-        <ActionsContainer className={isShowed ? "showed" : ""}>
-          <DeleteIcon onClick={handleDeleteTask} />
-          {!task.isCompleted && (
-            <InProgressIcon onClick={() => setInProgress(task)} />
-          )}
-          <EditIcon />
-          {task.inProgress && (
-            <FinishedIcon onClick={() => setIsCompleted(task)} />
-          )}
-        </ActionsContainer>
-        {task.inProgress && (
-          <TimerContainer className={isShowed ? "showed" : ""}>
-            <HourContainer>
-              <span>0</span>
-              <span>3</span>
-            </HourContainer>
-            <Colon>:</Colon>
-            <MinutesContainer>
-              <span>2</span>
-              <span>0</span>
-            </MinutesContainer>
-          </TimerContainer>
-        )}
         <ThreeDotsVerticalIcon onClick={handleShowOptions} />
+        <TaskActions isShowed={isShowed} task={task} key={task.id} />
       </div>
     </Container>
   );
