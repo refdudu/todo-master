@@ -2,15 +2,16 @@ import styled from "styled-components";
 import { CaretDownFill, Plus } from "styled-icons/bootstrap";
 
 export const Container = styled.div`
-  padding: 0.7rem 1.5rem;
   display: flex;
   align-items: center;
   justify-content: center;
 
   position: relative;
+  padding: 0.7rem 1.5rem;
+  min-width: 250px;
+
   border: 2px solid var(--border);
   border-right: none;
-  min-width: 250px;
 `;
 export const Title = styled.div`
   display: flex;
@@ -18,14 +19,11 @@ export const Title = styled.div`
   justify-content: center;
 
   cursor: pointer;
-
-  > span {
-  }
 `;
 export const CaretDownIcon = styled(CaretDownFill)`
   margin-left: 5px;
   width: 15px;
-  /* height: 10px; */
+  height: 15px;
 `;
 
 type ListProps = {
@@ -33,7 +31,7 @@ type ListProps = {
 };
 
 export const List = styled.ul<ListProps>`
-  display: ${(props) => (props.isOpened ? "block" : "none")};
+  /* display: ${(props) => (props.isOpened ? "block" : "none")}; */
   z-index: 9999;
   position: absolute;
   background: #fff;
@@ -41,7 +39,6 @@ export const List = styled.ul<ListProps>`
   width: calc(100% + 4px);
 
   border: 2px solid var(--border);
-  /* border-top: none; */
   @media (max-width: 850px) {
     top: 48px;
   }
@@ -49,21 +46,26 @@ export const List = styled.ul<ListProps>`
 export const Item = styled.li`
   padding: 0.3rem 1.5rem;
   width: 100%;
-  border-bottom: 1px solid var(--border);
+
   display: flex;
   align-items: center;
+  
   cursor: pointer;
-  transition: background-color 0.8s cubic-bezier(0.075, 0.82, 0.165, 1);
+  transition: background-color 0.5s ease;
   &:hover {
     background-color: var(--border);
+  }
+
+  & + & {
+    border-top: 1px solid var(--border);
   }
 `;
 
 export const CreateNewCategory = styled(Item)`
-  padding: 1rem;
+  padding: 1rem 1.2rem;
   background-color: #fff;
 
-  background-color: #cadeef;
+  background-color: var(--blue-light);
   border-bottom: none;
   > span {
     font-size: 0.8rem;
@@ -71,11 +73,7 @@ export const CreateNewCategory = styled(Item)`
 `;
 export const PlusIcon = styled(Plus)`
   width: 20px;
-  /* height: 20px; */
+  height: 20px;
 
-  &.create-category {
-  }
-  &.new-category {
-    margin-right: 5px;
-  }
+  margin-right: 2px;
 `;

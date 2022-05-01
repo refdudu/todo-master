@@ -3,6 +3,7 @@ import { createGlobalStyle } from "styled-components";
 export const GlobalStyles = createGlobalStyle`
 :root{
     --border:#8fb9dd;
+    --blue-light:#cadeef;
 }
 
 * {

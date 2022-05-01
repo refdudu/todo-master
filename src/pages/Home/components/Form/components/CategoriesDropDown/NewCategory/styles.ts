@@ -10,17 +10,19 @@ export const Container = styled.div<NewCategoryProps>`
   display: ${(props) => (props.isShowed ? "flex" : "none")};
 
   input {
+    border-bottom: 1px solid var(--border);
     padding: 0.2rem;
     width: 100%;
-    border-bottom: 1px solid var(--border);
   }
   button {
-    padding: 0.1rem;
-    background-color: var(--border);
     margin-left: 5px;
+    padding: 0.1rem 0.2rem;
+    background-color: var(--border);
+
     display: flex;
     align-items: center;
     justify-content: center;
+
     cursor: pointer;
   }
 `;

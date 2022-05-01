@@ -9,7 +9,12 @@ type NewCategoryProps = {
   setCategory: React.Dispatch<React.SetStateAction<string>>;
 };
 
-function NewCategory({ isShowed, setIsShowed, category, setCategory }: NewCategoryProps) {
+function NewCategory({
+  isShowed,
+  setIsShowed,
+  category,
+  setCategory,
+}: NewCategoryProps) {
   const { createCategory } = useCategory();
   const inputRef = useRef(null);
 
@@ -28,6 +33,8 @@ function NewCategory({ isShowed, setIsShowed, category, setCategory }: NewCatego
     }
   }, [isShowed]);
 
+  
+
   return (
     <Container isShowed={isShowed}>
       <input
@@ -36,7 +43,9 @@ function NewCategory({ isShowed, setIsShowed, category, setCategory }: NewCatego
         onChange={(event) => {
           setCategory(event.currentTarget.value);
         }}
-        onKeyUp={({ key }) => key === "Enter" && handleCreateCategory}
+        onKeyUp={({ key }) =>
+          key === "Enter" && handleCreateCategory()
+        }
         type="text"
       />
       <button onClick={handleCreateCategory}>
